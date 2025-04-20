@@ -1,4 +1,0 @@
-mo,159,Mo1@gmail.com,0
-lolboy,123,lolboy@gmail.com,0
-123,123,123,1000000
-321,321,1234,20
