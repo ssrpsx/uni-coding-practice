@@ -6,6 +6,7 @@ It's a collection of lab exercises and personal practice problems.
 ## 📚 Courses Included
 
 - CSS112: Computer Programming (Basic C Language)
+- CSS114: Linear Algebra for Computing.
 - CSS121: Data Structures and Algorithms.
 
 ## ✨ Why this repo?
