@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*{
+    margin: 0;
+    padding: 0  ;
+    font-family: 'Poppins', sans-serif;
+}
+.container{
+    background: linear-gradient(135deg, #cf9aff, #95c0ff);
+}
+@layer components{
+    .input-box{
+        @apply rounded-md w-11/12 h-52 relative bg-white mb-2 text-black p-2 sm:w-11/12 no-underline;
+    }
+    .delete-box{
+        @apply absolute bottom-2 right-2 w-6 cursor-pointer;
+    }
+    .notes-container {
+        @apply overflow-y-hidden max-h-base sm:max-h-sm-base sm:grid sm:grid-cols-2 sm:gap-2;
+    }
+}

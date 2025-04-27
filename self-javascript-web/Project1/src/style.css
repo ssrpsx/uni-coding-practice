@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.card{
+    background: linear-gradient(135deg, #00feba, #5b548a);
+    margin: 100px auto 0;
+}
+.search button{
+    cursor: pointer;
+    border-radius: 50%;
+}
+.search button img{
+    margin: auto;
+}
+.margin-auto{
+    margin: auto;
+}

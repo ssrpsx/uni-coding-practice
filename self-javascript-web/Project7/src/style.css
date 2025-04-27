@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components{
+    .container{
+        @apply w-[300px] sm:w-[400px] px-[35px] py-[25px] absolute top-1/2 left-1/2 bg-white rounded-sm;
+        transform: translate(-50%, -50%);
+    }
+    .btn{
+        @apply w-full h-12 bg-[#494eea] text-white border-none outline-none rounded-sm cursor-pointer font-medium my-5 mt-4;
+        box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
+    }
+}

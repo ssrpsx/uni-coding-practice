@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components{
+    .container{
+        background: linear-gradient(135deg,#153677, #4e085f);
+        @apply h-screen min-w-full;
+    }
+    .container-children{
+        @apply border-dashed border-2 w-48 h-48 sm:w-72 sm:h-72 m-2 overflow-y-hidden;
+    }
+    .list{
+        padding: 0.2rem;
+    }
+    .list-children{
+        @apply bg-pink-500 w-full h-10 rounded-md text-white text-lg sm:text-xl px-2 list-inside items-center pt-1;
+    }
+}

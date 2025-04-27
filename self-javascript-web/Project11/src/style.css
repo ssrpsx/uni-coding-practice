@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .music-player {
+        @apply text-center py-7 px-9 rounded-lg w-[300px] sm:w-[500px] lg:w-[800px] xl:w-[1000px];
+        background: linear-gradient(135deg, #00d87e, #1DB954);
+    }
+    .circle {
+        @apply rounded-full w-10 h-10 leading-[40px] bg-white text-[#332e2e] cursor-pointer;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    }
+    .song-img {
+        @apply w-56 rounded-full border-8 border-white m-auto my-6;
+        box-shadow: 0 10px 60px rgba(0, 0, 0, 0.7);
+    }
+    .controls div{
+        @apply w-12 h-12 m-4 bg-white items-center justify-center rounded-full inline-flex text-[#332e2e] cursor-pointer;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+    }
+    .controls div:nth-child(2){
+        @apply bg-[#292626] text-white;
+        transform: scale(1.5);
+    }
+    #progress{
+        -webkit-appearance: none;
+    }
+    #progress::-webkit-slider-thumb{
+        -webkit-appearance: none;
+        background-color: #292626;
+        width: 30px;
+        height: 30px;
+        border-radius: 9999px;
+        border: 6px solid #ffffff;
+        box-shadow: 0 5px 5px rgba(0, 0, 0, 1);
+        opacity: 1;
+    }
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Noto Sans Thai", sans-serif;
+}

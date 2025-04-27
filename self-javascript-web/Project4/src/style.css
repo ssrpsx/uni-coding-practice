@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.bg{
+    height: 100vh;
+    background: linear-gradient(200deg, #0a3f61, #10222e,  #113f5c);
+}

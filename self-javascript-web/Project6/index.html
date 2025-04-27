@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Age calculator app</title>
+    <link rel="stylesheet" href="./dist/output.css">
+</head>
+<body>
+    <div class="container flex h-screen min-w-full">
+        <div class="calculator max-w-auto m-auto">
+            <h1 class="text-white font-semibold text-3xl">JavaScript<br><span class="text-yellow-300">Age Calculator</span></h1>
+            <div class="input-box">
+                <input type="date" id="date" class="mr-2 p-2 rounded-sm sm:text-xl sm:p-4">
+                <button class="bg-yellow-300 rounded-sm p-1 text-sm sm:text-lg sm:p-4" onclick="calculatorAge()">Calculator</button>
+            </div>
+            <p id="result" class="text-sm sm:text-xl text-white mt-7">result</p>
+        </div>
+    </div>
+    <script src="src/script.js"></script>
+</body>
+</html>
