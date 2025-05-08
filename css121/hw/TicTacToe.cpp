@@ -4,23 +4,27 @@
     #include <vector>
     using namespace std;
 
-    bool printed = false;
+    bool printed = false; // เอาไว้เช็คตอนปริ้นดู State แรกที่ชนะ
     bool checkWin(int table[9], int player);
 
+    //โครงสร้างต้นไม้
     struct TreeNode{
         TreeNode* pre = nullptr;
         TreeNode* next[9] = {nullptr};
         int table[9];
-
+        
+        //กำหนดค่าTableทั้งหมด 9 ช่องให้เป็น 0
         TreeNode() {
             fill(begin(table), end(table), 0);
         }
     };
 
+    // สร้างโหนดแรก(กระดาษเปล่า) เพื่อความปลอดภัย และเป็นโหนห Head
     TreeNode* dummyNode(){
         return new TreeNode();
     }
 
+    // fnc สำหรับเก็บ State
     int tictactoe(TreeNode*& head, int move, int turn,
                 int& win, int& loss,
                 set<vector<int>>& xWinSet,
@@ -29,62 +33,69 @@
         if (checkWin(head->table, 1))
         {
             win++;
-            xWinSet.insert(vector<int>(head->table, head->table + 9));
+            xWinSet.insert(vector<int>(head->table, head->table + 9)); //ถ้าXชนะ จะนำ int Table[9] ไปยัดใส่ Vector<int> 1อันและไปใส่ไว้ใน xWinSet
 
             // ผมเอาไว้เช็ค ตาแรกที่Xชนะ จากที่เก็บStateมา
-            // if (!printed) 
-            // {
-            //     cout << "เส้นทางที่ X ชนะครั้งแรก:" << endl;
-            //     TreeNode* cur = head;
-            //     vector<TreeNode*> path;
+            if (!printed) 
+            {
+                cout << "เส้นทางที่ X ชนะครั้งแรก:" << endl;
+                TreeNode* cur = head;
+                vector<TreeNode*> path;
+                
+                // เชื่อมโยงจากโหนดไปยังโหนดก่อนหน้า (ย้อนกลับ)
+                while (cur)
+                {
+                    path.push_back(cur);
+                    cur = cur->pre;
+                }
         
-            //     while (cur)
-            //     {
-            //         path.push_back(cur);
-            //         cur = cur->pre;
-            //     }
+                reverse(path.begin(), path.end());  // เปลี่ยนลำดับ(สลับ)เป็นจากหลังสุดมาหน้าสุด
         
-            //     reverse(path.begin(), path.end());
+                for (size_t i = 0; i < path.size(); ++i) 
+                {
+                    cout << "ตาที่ " << i + 1 << ":" << endl;
+                    for (int j = 0; j < 9; ++j) 
+                    {
+                        if (path[i]->table[j] == 1) cout << 'X';
+                        else if (path[i]->table[j] == 2) cout << 'O';
+                        else cout << '.';
         
-            //     for (size_t i = 0; i < path.size(); ++i) 
-            //     {
-            //         cout << "ตาที่ " << i + 1 << ":" << endl;
-            //         for (int j = 0; j < 9; ++j) 
-            //         {
-            //             if (path[i]->table[j] == 1) cout << 'X';
-            //             else if (path[i]->table[j] == 2) cout << 'O';
-            //             else cout << '.';
+                        if ((j + 1) % 3 == 0) cout << endl;
+                    }
+                    cout << "------------------" << endl << endl;
+                }
         
-            //             if ((j + 1) % 3 == 0) cout << endl;
-            //         }
-            //         cout << endl;
-            //     }
-        
-            //     printed = true;
-            // }
+                printed = true; // บันทึกว่าแสดงเส้นทางแรกแล้ว
+            }
 
             return 1;
         }
         else if (checkWin(head->table, 2))
         {
             loss++;
-            oWinSet.insert(vector<int>(head->table, head->table + 9));
+            oWinSet.insert(vector<int>(head->table, head->table + 9)); //ถ้าOชนะจะนำ int Table[9] ไปยัดใส่ Vector<int> 1อันและไปใส่ไว้ใน oWinSet
             return 1;
         }
-        else if(move >= 8) return 1;
+        else if(move >= 8) return 1; // เสมอคืนค่า 1
 
+        //ลูป 0-9 เพราะตารางมี 9ช่อง
         for (int i = 0; i < 9; i++) 
         {
+            //เช็คถ้าช่องกระดานที่จะลง ถูกลงไปแล้วให้ข้ามลูปนี้ไป
             if (head->table[i] != 0) continue;
 
             TreeNode* newNode = new TreeNode();
+            //คัดลอกโหนดที่อยู่ปัจจุบัน ไปใส่โหนดลูกอันใหม่เพื่อจะลูปวนต่อ
             copy(begin(head->table), end(head->table), begin(newNode->table));
 
             newNode->table[i] = turn;
             newNode->pre = head;
             head->next[i] = newNode;
-
+            
+            //อันนี้ทำเพื่อเช็ค ถ้าตาX แทนเป็น1 ให้ตาต่อไปเป็น O แทนเป็น 2
             int nextTurn = (turn == 1) ? 2 : 1;
+
+            //แรกตัวเองซ้ำ เป็น Recursion
             tictactoe(head->next[i], move + 1, nextTurn,
                     win, loss,
                     xWinSet, oWinSet);
@@ -93,6 +104,7 @@
         return 0;
     }
 
+    //ลบทุกโหนดออก กัน memory leak
     void delete_node(TreeNode*& head)
     {
         if (!head) return;
@@ -106,6 +118,7 @@
         head = nullptr;
     }
 
+    // เอาไว้เช็ค เช่นส่ง player = 1 ก็คือXเข้ามา ถ้าXชนะ ตาม win_patterns ก็จะคืนค่า TRUE ออกไป ถ้าไม่ FALSE
     bool checkWin(int table[9], int player)
     {
         int win_patterns[8][3] = {
@@ -132,6 +145,7 @@
         return false;
     }
 
+    //เอาไว้ปริ้นเช็คดูกระดาน ต่างๆ
     void f_print(vector<int>& arr)
     {
         for (int i = 0; i < 9; ++i)
