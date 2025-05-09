@@ -1,5 +1,4 @@
-#include <iostream>
-#include <vector>
+#include <bits/stdc++.h>
 #include "../Sort/basic_sort.h"
 using namespace std;
 
