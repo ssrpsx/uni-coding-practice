@@ -6,14 +6,7 @@ struct Node {
     string color;
     Node *left, *right, *parent;
 
-    Node(int data)
-        : data(data)
-        , color("RED")
-        , left(nullptr)
-        , right(nullptr)
-        , parent(nullptr)
-    {
-    }
+    Node(int data) : data(data), color("RED"), left(nullptr), right(nullptr), parent(nullptr) {}
 };
 
 // Red-Black Tree class
