@@ -1,5 +1,5 @@
 #include <bits/stdc++.h>
-#include "../Sort/basic_sort.h"
+#include "../Sort/basic-sort.h"
 using namespace std;
 
 class Node {

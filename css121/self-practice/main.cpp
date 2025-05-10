@@ -1,34 +1,28 @@
 #include <bits/stdc++.h>
-#include "Tree/AVLTree.h"
+#include "Tree/Red-Black-Tree.h"
 using namespace std;
 
 int main()
 {
-    AVLTree<int> avl;
+    RedBlackTree rbt;
 
-    // Insert nodes into the AVL tree
-    avl.insert(10);
-    avl.insert(20);
-    avl.insert(30);
-    avl.insert(40);
-    avl.insert(50);
-    avl.insert(25);
+    // Inserting elements
+    rbt.insert(10);
+    rbt.insert(20);
+    rbt.insert(30);
+    rbt.insert(15);
 
-    // Print the inorder traversal of the AVL tree
-    cout << "Inorder traversal of the AVL tree: ";
-    avl.printInorder();
+    // Inorder traversal
+    cout << "Inorder traversal:" << endl;
+    rbt.inorder(); // Output: 10 15 20 30
 
-    // Remove a node from the AVL tree
-    avl.remove(30);
-    cout << "Inorder traversal after removing 30: ";
-    avl.printInorder();
+    // Search for a node
+    cout << "\nSearch for 15: "
+         << (rbt.search(15) != rbt.search(0))
+         << endl; // Output: 1 (true)
+    cout << "Search for 25: "
+         << (rbt.search(25) != rbt.search(0))
+         << endl; // Output: 0 (false)
 
-    // Search for nodes in the AVL tree
-    cout << "Is 25 in the tree? "
-         << (avl.search(25) ? "Yes" : "No") << endl;
-    cout << "Is 30 in the tree? "
-         << (avl.search(30) ? "Yes" : "No") << endl;
-
-    return 0;
     return 0;
 }
