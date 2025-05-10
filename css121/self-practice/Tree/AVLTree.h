@@ -1,7 +1,8 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-template<typename T> struct AVLNode{
+template<typename T>
+struct AVLNode{
     T key;
     AVLNode* left;
     AVLNode* right;
@@ -15,7 +16,8 @@ template<typename T> struct AVLNode{
     }
 };
 
-template<typename T> class AVLTree{
+template<typename T>
+class AVLTree{
     private:
         AVLNode<T>* root;
 
