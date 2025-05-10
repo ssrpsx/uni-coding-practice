@@ -4,6 +4,15 @@
 //     class Compare = less<typename Container::value_type> // ฟังก์ชันเปรียบเทียบ (ค่า default คือ Max Heap)
 // > class priority_queue;
 
+//Input ตัวที่ 3
+// struct Compare {
+//     bool operator()(int a, int b) {
+//         return a > b;  // ผลลัพธ์เหมือน greater<int>
+//     }
+// };
+
+// priority_queue<int, vector<int>, Compare> pq;
+
 #include <bits/stdc++.h>
 using namespace std;
 
