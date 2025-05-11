@@ -1,24 +1,26 @@
 #include <bits/stdc++.h>
-#include "Graph/DFS.h"
+#include "graph/BFS.h"
 using namespace std;
 
+
 int main() {
-    DFS<char> dfs;
-    map<char, vector<char>> graph;
+    BFS bfs;
+    int row, col, startX, startY;
+    cout << "Input graph : " << endl;
+    cin >> row >> col;
 
-    graph['A'] = {'B', 'C'};
-    graph['B'] = {'D', 'E'};
-    graph['C'] = {'F'};
-    graph['D'] = {'G'};
-    graph['E'] = {'G', 'H'};
-    graph['F'] = {'I'};
-    graph['G'] = {};
-    graph['H'] = {'J'};
-    graph['I'] = {};
-    graph['J'] = {};
+    vector<vector<char>> graph(row, vector<char>(col));
+    for(int i = 0; i < row; i++) {
+        for(int j = 0; j < col; j++) {
+            cin >> graph[i][j];
+            if(graph[i][j] == 'S') {
+                startX = i;
+                startY = j;
+            }
+        }
+    }
 
-    cout << "DFS traversal (stack): ";
-    dfs.get_graph(graph);
-    dfs.get_dfs('A');
+    bfs.get_graph(graph, startX, startY);
+    bfs.ft_bfs();
     return 0;
 }
