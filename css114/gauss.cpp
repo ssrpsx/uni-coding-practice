@@ -2,7 +2,6 @@
 #include <vector>
 #include <cmath>
 #include <iomanip>
-
 using namespace std;
 
 // ฟังก์ชันสำหรับ Gauss Elimination with Partial Pivoting
