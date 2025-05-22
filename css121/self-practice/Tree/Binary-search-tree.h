@@ -75,6 +75,20 @@ class binarySerachTree_class{
                 inorder(root->right);
             }
         };
+        void preorder(Node *root) {
+            if (root != nullptr) {
+                cout << root->data << " ";
+                inorder(root->left);
+                inorder(root->right);
+            }
+        };
+        void postorder(Node *root) {
+            if (root != nullptr) {
+                inorder(root->left);
+                inorder(root->right);
+                cout << root->data << " ";
+            }
+        };
 
         void clear(Node *&root){
             if(root != nullptr){

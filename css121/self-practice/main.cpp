@@ -1,51 +1,29 @@
 #include <bits/stdc++.h>
+#include "Tree/Binary-search-tree.h"
 using namespace std;
 
-int row, col;
-vector<vector<char>> str;
-vector<int> block(20, -1);
-vector<pair<int, int>> position;
-set<int> check;
 
 int main() {
-    cin >> row >> col;
-    str = vector<vector<char>>(row, vector<char>(col));
-    position = vector<pair<int, int>>(col, {-1, -1});
+    binarySearch_class tree;
+    int data[] = {10, 8, 2, 4, 3, 15, 26, 30, 17, 6};
+    int size = sizeof(data) / sizeof(data[0]);
 
-    for(int i = 0; i < row; i++) {
-        for(int j = 0; j < col; j++) {
-            cin >> str[i][j];
-            if(str[i][j] == 'O' && !check.count(j)){
-                check.insert(j);
-                position[j] = {i, j};
-            }
-        }
+    Node* root = nullptr;
+    for (int i = 0; i < size; i++) {
+        tree.insert(root, data[i], i); // ส่ง index ไปด้วย (ถ้าจำเป็น)
     }
 
-    for(int i = 0; i < col; i++) {
-        cin >> block[i];
-    }
-    
-    for (int j = 0; j < col; j++) {
-        int remain = block[j];
-        int bottom = row - 1;
+    cout << "Pre-order: ";
+    tree.preorder(root);
+    cout << "\n";
 
-        if (position[j].first != -1) {
-            bottom = position[j].first - 1;
-        }
-        for (int i = bottom; i >= 0 && remain > 0; i--) {
-            if (str[i][j] == '.') {
-                str[i][j] = '#';
-                remain--;
-            }
-        }
-    }
+    cout << "In-order: ";
+    tree.inorder(root);
+    cout << "\n";
 
-    for (int i = 0; i < row; i++) {
-        for (int j = 0; j < col; j++) {
-            cout << str[i][j];
-        }
-        cout << endl;
-    }
+    cout << "Post-order: ";
+    tree.postorder(root);
+    cout << "\n";
+
     return 0;
 }
