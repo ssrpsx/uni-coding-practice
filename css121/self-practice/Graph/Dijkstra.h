@@ -29,6 +29,7 @@ std::vector<int> dijkstra(std::vector<std::vector<int>> &edges, int vertex, int 
         {
             int v = a.first;
             int w = a.second;
+            
             if (dist[v] > dist[u] + w)
             {
                 dist[v] = dist[u] + w;
