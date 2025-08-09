@@ -12,3 +12,11 @@ string operator*(string &str, const int &count)
 
     return result;
 }
+
+/*
+int main() {
+    string a = "abs, ";
+
+    cout << (a * 3) << endl;
+}
+*/
