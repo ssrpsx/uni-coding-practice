@@ -38,6 +38,7 @@ namespace CP
         }
 
     public:
+        // constructor & copy operator
         vector()
         {
             int cap = 1;
@@ -58,6 +59,51 @@ namespace CP
             delete [] mData;
         }
 
+        vector(const vector<T> &a)
+        {
+            mData = new T[a.capacity()]();
+            mSize = a.size();
+            mCap = a.capacity();
+            for(size_t i = 0; i < a.size(); i++)
+            {
+                mData[i] = a[i];
+            }
+        }
+
+        vector<T>& operator=(vector<T> &other)
+        {
+            if(mData != other.mData)
+            {
+                delete [] mData;
+
+                mData = new T[other.capacity()]();
+                mCap = other.capacity();
+                mSize = other.size();
+
+                for(size_t i = 0; i < other.size(); i++)
+                    mData[i] = other[i];
+            }
+
+            return *this;
+        }
+
+        //capacity
+        size_t size() const
+        {
+          return mSize;  
+        }
+
+        bool empty() const
+        {
+            return mSize == 0;
+        }
+
+        size_t capacity() const
+        {
+            return mCap;
+        }
+
+        //access
         T& at(int index)
         {
             rangeCheck(index);
@@ -68,6 +114,7 @@ namespace CP
             return mData[index];
         }
 
+        //modifier
         void push_back(const T &data)
         {
             checkCapacity(mSize+1);
@@ -77,16 +124,6 @@ namespace CP
         void pop_back()
         {
             mSize--;
-        }
-
-        size_t size()
-        {
-          return mSize;  
-        }
-
-        bool empty()
-        {
-            return mSize == 0;
         }
     };
 }
