@@ -10,7 +10,7 @@ namespace CP
 
         void rangeCheck(int n)
         {
-            if(n < 0 || size_t(n) >= mSize)
+            if (n < 0 || size_t(n) >= mSize)
             {
                 throw std::out_of_range("index out of range");
             }
@@ -19,11 +19,11 @@ namespace CP
         void expand(size_t capacity)
         {
             T *arr = new T[capacity]();
-            for(size_t i = 0; i < mSize; i++)
+            for (size_t i = 0; i < mSize; i++)
             {
                 arr[i] = mData[i];
             }
-            delete [] mData;
+            delete[] mData;
             mData = arr;
             mCap = capacity;
         }
@@ -38,6 +38,7 @@ namespace CP
         }
 
     public:
+        typedef T *iterator;
         // constructor & copy operator
         vector()
         {
@@ -56,7 +57,7 @@ namespace CP
 
         ~vector()
         {
-            delete [] mData;
+            delete[] mData;
         }
 
         vector(const vector<T> &a)
@@ -64,33 +65,33 @@ namespace CP
             mData = new T[a.capacity()]();
             mSize = a.size();
             mCap = a.capacity();
-            for(size_t i = 0; i < a.size(); i++)
+            for (size_t i = 0; i < a.size(); i++)
             {
                 mData[i] = a[i];
             }
         }
 
-        vector<T>& operator=(vector<T> &other)
+        vector<T> &operator=(vector<T> &other)
         {
-            if(mData != other.mData)
+            if (this != &other)
             {
-                delete [] mData;
+                delete[] mData;
 
                 mData = new T[other.capacity()]();
                 mCap = other.capacity();
                 mSize = other.size();
 
-                for(size_t i = 0; i < other.size(); i++)
+                for (size_t i = 0; i < other.size(); i++)
                     mData[i] = other[i];
             }
 
             return *this;
         }
 
-        //capacity
+        // capacity
         size_t size() const
         {
-          return mSize;  
+            return mSize;
         }
 
         bool empty() const
@@ -103,21 +104,30 @@ namespace CP
             return mCap;
         }
 
-        //access
-        T& at(int index)
+        void resize(size_t n)
+        {
+            if (n > mCap)
+            {
+                expand(n);
+            }
+            mSize = n;
+        }
+
+        // access
+        T &at(int index)
         {
             rangeCheck(index);
             return mData[index];
         }
-        T& operator[](int index)
+        T &operator[](int index)
         {
             return mData[index];
         }
 
-        //modifier
+        // modifier
         void push_back(const T &data)
         {
-            checkCapacity(mSize+1);
+            checkCapacity(mSize + 1);
             mData[mSize++] = data;
         }
 
@@ -126,31 +136,18 @@ namespace CP
             mSize--;
         }
 
-        //iterator
-        typedef T* iterator;
-
-        iterator begin()
-        {
-            return &mData[0];
-        }
-
-        iterator end()
-        {
-            return begin() + mSize;
-        }
-
-        iterator insert(iterator it, const T& element)
+        iterator insert(iterator it, const T &element)
         {
             size_t pos = it - begin();
             checkCapacity(mSize + 1);
 
-            for(size_t i = mSize; i > pos; i--)
+            for (size_t i = mSize; i > pos; i--)
             {
                 mData[i] = mData[i - 1];
             }
 
             mData[pos] = element;
-            mSize ++;
+            mSize++;
 
             return begin() + pos;
         }
@@ -163,7 +160,24 @@ namespace CP
                 it++;
             }
             mSize--;
-            
+        }
+
+        void clear()
+        {
+            delete[] mData;
+            mData = nullptr;
+            mSize = 0;
+        }
+
+        // iterator
+        iterator begin()
+        {
+            return &mData[0];
+        }
+
+        iterator end()
+        {
+            return begin() + mSize;
         }
     };
 }
