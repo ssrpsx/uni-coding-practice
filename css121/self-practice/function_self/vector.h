@@ -125,5 +125,45 @@ namespace CP
         {
             mSize--;
         }
+
+        //iterator
+        typedef T* iterator;
+
+        iterator begin()
+        {
+            return &mData[0];
+        }
+
+        iterator end()
+        {
+            return begin() + mSize;
+        }
+
+        iterator insert(iterator it, const T& element)
+        {
+            size_t pos = it - begin();
+            checkCapacity(mSize + 1);
+
+            for(size_t i = mSize; i > pos; i--)
+            {
+                mData[i] = mData[i - 1];
+            }
+
+            mData[pos] = element;
+            mSize ++;
+
+            return begin() + pos;
+        }
+
+        void erase(iterator it)
+        {
+            while ((it + 1) != end())
+            {
+                *it = *(it + 1);
+                it++;
+            }
+            mSize--;
+            
+        }
     };
 }
