@@ -38,10 +38,10 @@ namespace CP
         queue() : mData(new T[1]()),
                   mSize(0), mCap(1), mFront(0) {};
         queue(const queue<T> &a) : mData(new T[a.mCap]()),
-                                   mSize(a.mSize), mCap(a.mCap), mFront(a.mFront)
+                                   mSize(a.mSize), mCap(a.mCap), mFront(0)
         {
             for (size_t i = 0; i < a.mSize; i++)
-                mData[i] = a.mData[i];
+                mData[i] = a.mData[(a.mFront + i) % a.mCap];
         }
         ~queue() { delete [] mData; }
 
@@ -87,6 +87,19 @@ namespace CP
         void pop()
         {
             mFront = (mFront + 1) % mCap;
+            mSize--;
+        }
+
+        // deque function
+        void push_front(const T& element)
+        {
+            ensureCapacity(mSize + 1);
+            mData[(mFront + mCap - 1) % mCap] = element;
+            mFront = (mFront + mCap) - 1 % mCap;
+            mSize++;
+        }
+        void pop_back()
+        {
             mSize--;
         }
     };
