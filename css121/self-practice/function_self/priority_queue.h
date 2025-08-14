@@ -1,5 +1,6 @@
 #include <functional>
 #include <utility>
+#include <iostream>
 
 namespace CP
 {
@@ -40,25 +41,23 @@ namespace CP
 
             mData[idx] = tmp;
         }
+        
+        void fixDown(size_t idx)
+        {
+            T tmp = mData[idx];
+            size_t check;
 
-        // bug will fix later
-        // void fixDown(size_t idx)
-        // {
-        //     T tmp = mData[idx];
-        //     size_t check;
+            while ((check = idx * 2 + 1) < mSize)
+            {
+                if(check + 1 < mSize && mLess(mData[check], mData[check + 1])) check++;
+                if(mLess(mData[check], tmp)) break;
 
-        //     while (check < mSize)
-        //     {
-        //         check = (idx * 2) + 1;
-        //         if(check + 1 > mSize && mLess(mData[check], mData[check + 1])) check++;
-        //         if(mLess(tmp, mData[check])) break;
+                mData[idx] = mData[check];
+                idx = check;
+            }
 
-        //         mData[idx] = mData[check];
-        //         idx = check;
-        //     }
-
-        //     mData[idx] = tmp;
-        // }
+            mData[idx] = tmp;
+        }
 
     public:
         priority_queue(const comp &c = comp()) : mData(new T[1]()),
@@ -127,6 +126,15 @@ namespace CP
             mData[0] = mData[mSize - 1];
             mSize--;
             fixDown(0);
+        }
+
+        //for debug
+        void show()
+        {
+            for(size_t i = 0; i < mSize; i++)
+            {
+                std::cout << mData[i] << std::endl;
+            }
         }
     };
 }
