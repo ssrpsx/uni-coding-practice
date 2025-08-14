@@ -13,6 +13,13 @@ namespace CP
         public:
             T data;
             node *prev, *next;
+
+            node() : data(T()), prev(this), next(this) {}
+            node(const T &a, node *prev, node *next) : data(T(a)),
+                                                       prev(prev),
+                                                       next(next)
+            {
+            }
         };
 
         class list_iterator
@@ -23,7 +30,7 @@ namespace CP
             node *ptr;
 
             list_iterator() : ptr(nullptr) {};
-            list_iterator(const node *a) : ptr(a) {};
+            list_iterator(node *a) : ptr(a) {};
 
             list_iterator &operator++()
             {
@@ -47,7 +54,7 @@ namespace CP
             list_iterator operator--(int)
             {
                 list_iterator tmp(*this);
-                operator--;
+                operator--();
                 return tmp;
             }
 
@@ -82,10 +89,10 @@ namespace CP
         // constructor & destructor
         list() : mHeader(new node()), mSize(0) {};
 
-        list(list<T> &a) : mHeader(new node()),
-                           mSize(0)
+        list(const list<T> &a) : mHeader(new node()),
+                                 mSize(0)
         {
-            for (iterator it = it.begin(); it != a.end(); it++)
+            for (iterator it = a.begin(); it != a.end(); it++)
             {
                 push_back(*it);
             }
@@ -103,7 +110,7 @@ namespace CP
 
         ~list()
         {
-            // clear();
+            clear();
             delete mHeader;
         }
 
@@ -115,6 +122,30 @@ namespace CP
         T &front() const { return mHeader->next->data; }
         T &back() const { return mHeader->prev->data; }
 
+        // modifie
+        iterator insert(iterator it, const T &element)
+        {
+            node *n = new node(element, it.ptr->prev, it.ptr);
+            it.ptr->prev->next = n;
+            it.ptr->prev = n;
+
+            mSize++;
+            return iterator(n);
+        }
+
+        iterator erase(iterator it)
+        {
+            iterator tmp(it.ptr->next);
+
+            it.ptr->prev->next = it.ptr->next;
+            it.ptr->next->prev = it.ptr->prev;
+
+            delete it.ptr;
+            mSize--;
+
+            return tmp;
+        }
+
         iterator begin()
         {
             return iterator(mHeader->next);
@@ -125,7 +156,6 @@ namespace CP
             return iterator(mHeader);
         }
 
-        // modifie
         void clear()
         {
             while (mSize > 0)
@@ -134,10 +164,25 @@ namespace CP
             }
         }
 
-        void push_back();
-        void push_front();
-        void pop_back();
-        void pop_front();
+        void push_back(const T &element)
+        {
+            insert(end(), element);
+        }
+
+        void push_front(const T &element)
+        {
+            insert(begin(), element);
+        }
+
+        void pop_back()
+        {
+            erase(iterator(mHeader->prev));
+        }
+
+        void pop_front()
+        {
+            erase(begin());
+        }
     };
 
 }
