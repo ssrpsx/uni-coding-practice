@@ -1,4 +1,5 @@
 #include <functional>
+#include <iostream>
 
 namespace CP
 {
@@ -21,46 +22,109 @@ namespace CP
             node(const ValueT &a, node *left, node *right, node *parent) : data(a), left(left), right(right), parent(parent) {};
 
         public:
-            node *copy(node *n)
-            {
-                if (n == nullptr)
-                    return nullptr;
-                node *left = copy(n->left);
-                node *right = copy(n->right);
-                node *result = new node(n->data, left, right, nullptr);
-            }
-
-            void clear(node *n)
-            {
-                if (n == nullptr)
-                    return;
-
-                clear(n->left);
-                clear(n->right);
-
-                delete n;
-            }
         };
 
         class iterator_tree
         {
         protected:
-            iterator_tree ptr;
+            node *ptr;
 
         public:
+            iterator_tree(node *p = nullptr) : ptr(p) {}
+            node *operator->() { return ptr; }
+            ValueT &operator*() { return ptr->data; }
         };
 
         node *mRoot;
         CompareT mLess;
         size_t mSize;
 
+    private:
+        node *copy(node *n, node *parent = nullptr)
+        {
+            if (n == nullptr)
+                return nullptr;
+            node *left = copy(n->left, nullptr);
+            node *right = copy(n->right, nullptr);
+            node *result = new node(n->data, left, right, parent);
+            if (left)
+                left->parent = result;
+            if (right)
+                right->parent = result;
+
+            return result;
+        }
+        void clear(node *n)
+        {
+            if (n == nullptr)
+                return;
+
+            clear(n->left);
+            clear(n->right);
+
+            delete n;
+        }
+
+        void clear()
+        {
+            clear(mRoot);
+            mRoot = nullptr;
+            mSize = 0;
+        }
+
+        void print(node *n)
+        {
+            if (n == nullptr)
+                return;
+
+            print(n->left);
+            std::cout << n->data.first << ":"
+                      << n->data.second << " " << std::endl;
+            print(n->right);
+        }
+
+        node *find_node(const keyT &data, node *root, node *&parent)
+        {
+            node *ptr = root;
+            while (ptr != nullptr)
+            {
+                int cmp = compare(data, ptr->data.first);
+                if (cmp == 0)
+                    return ptr;
+
+                parent = ptr;
+                ptr = cmp > 0 ? ptr->right : ptr->left;
+            }
+
+            return nullptr;
+        }
+
+        int compare(const keyT &k1, const keyT &k2)
+        {
+            if (mLess(k1, k2))
+                return -1;
+            if (mLess(k2, k1))
+                return +1;
+
+            return 0;
+        }
+
+        node *&child_link(node *parent, const keyT &data)
+        {
+            if (parent == nullptr)
+                return mRoot;
+            return mLess(data, parent->data.first)
+                       ? parent->left
+                       : parent->right;
+        }
+
     public:
         typedef iterator_tree iterator;
 
-        map_bst(const CompareT &c = CompareT) : mRoot(nullptr), mLess(c), mSize(0) {};
-        map_bst(const map_bst<k, m, c> &other) : mLess(other.mLess), mSize(other.msize)
+        map_bst(const CompareT &c = CompareT()) : mRoot(nullptr), mLess(c), mSize(0) {};
+        map_bst(const map_bst<keyT, mapT, CompareT> &other) : mLess(other.mLess), mSize(other.msize)
         {
-            mRoot = copy(other.mRoot);
+            mRoot = copy(other.mRoot, nullptr);
         }
 
         map_bst<keyT, mapT, CompareT> &operator=(map_bst<keyT, mapT, CompareT> other)
@@ -79,34 +143,34 @@ namespace CP
             clear();
         }
 
-        iterator find(const keyT& data)
+        iterator find(const keyT &data)
         {
             node *parent;
             node *ptr = find_node(data, mRoot, parent);
-            return ptr == nullptr ? end() : iterator(ptr);
+            // return ptr == nullptr ? end() : iterator(ptr); will use later
+            return ptr == nullptr ? iterator(0) : iterator(ptr);
         }
 
-        node *find_node(const keyT& data, node* root, node* parent)
+        std::pair<iterator, bool> insert(const ValueT &val)
         {
-            node* ptr = root;
-            while (ptr != nullptr)
+            node *parent = nullptr;
+            node *ptr = find_node(val.first, mRoot, parent);
+
+            bool not_found = (ptr == nullptr);
+            if (not_found)
             {
-                int cmp = compare(data, ptr->data.first);
-                if(cmp == 0) return ptr;
-
-                parent = ptr;
-                ptr = cmp > 0 ? ptr->right : ptr->left;
+                ptr = new node(val, nullptr, nullptr, parent);
+                child_link(parent, val.first) = ptr;
+                mSize++;
             }
-            
-            return nullptr;
+
+            return std::make_pair(iterator(ptr), not_found);
         }
 
-        int compare(const keyT& k1, const keyT& k2)
+        // for debug
+        void print()
         {
-            if(mLess(k1, k2)) return -1;
-            if(mLess(k2, k1)) return +1;
-
-            return 0;
+            print(mRoot);
         }
     };
 }
