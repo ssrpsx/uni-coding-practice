@@ -30,9 +30,90 @@ namespace CP
             node *ptr;
 
         public:
-            iterator_tree(node *p = nullptr) : ptr(p) {}
-            node *operator->() { return ptr; }
-            ValueT &operator*() { return ptr->data; }
+            iterator_tree() : ptr(nullptr) {}
+            iterator_tree(node *p) : ptr(p) {}
+
+            iterator_tree operator++()
+            {
+                if(ptr->right == nullptr)
+                {
+                    node *parent = ptr->parent;
+                    while (parent != nullptr && parent->right == ptr)
+                    {
+                        ptr = parent;
+                        parent = ptr->parent;
+                    }
+                    ptr = parent;
+                }
+                else
+                {
+                    ptr = ptr->right;
+                    while (ptr->left != nullptr)
+                    {
+                        ptr = ptr->left;
+                    }
+                }
+
+                return (*this);
+            }
+
+            iterator_tree operator--()
+            {
+                if(ptr->left == nullptr)
+                {
+                    node *parent = ptr->parent;
+                    while (parent != nullptr && parent->left == ptr)
+                    {
+                        ptr = parent;
+                        parent = ptr->parent;
+                    }
+                    ptr = parent;
+                }
+                else
+                {
+                    ptr = ptr->left;
+                    while (ptr->right != nullptr)
+                    {
+                        ptr = ptr->right;
+                    }
+                }
+
+                return (*this);
+            }
+
+            iterator_tree operator++(int)
+            {
+                iterator_tree tmp(*this);
+                operator++();
+                return tmp;
+            }
+
+            iterator_tree operator--(int)
+            {
+                iterator_tree tmp(*this);
+                operator--();
+                return tmp;
+            }
+
+            node *operator->()
+            {
+                return &(ptr->data);
+            }
+
+            ValueT &operator*()
+            {
+                return ptr->data;
+            }
+
+            bool operator==(const iterator_tree &other)
+            {
+                return ptr == other.ptr;
+            }
+
+            bool operator!=(const iterator_tree &other)
+            {
+                return ptr != other.ptr;
+            }
         };
 
         node *mRoot;
@@ -118,6 +199,17 @@ namespace CP
                        : parent->right;
         }
 
+        node *find_min_node(node *r)
+        {
+            node *cur = r;
+            while (cur && cur->left != nullptr)
+            {
+                cur = cur->left;
+            }
+
+            return cur;
+        }
+
     public:
         typedef iterator_tree iterator;
 
@@ -171,6 +263,54 @@ namespace CP
         void print()
         {
             print(mRoot);
+        }
+
+        size_t erase(const keyT &key)
+        {
+            if (mRoot == nullptr)
+                return 0;
+            node *parent = nullptr;
+            node *ptr = find_node(key, mRoot, parent);
+            if (ptr == nullptr)
+                return 0;
+
+            if (ptr->left != nullptr && ptr->right != nullptr)
+            {
+                node *min = find_min_node(ptr->right);
+                node *&link = child_link(min->parent, min->data.first);
+                link = (min->left == nullptr) ? min->right : min->left;
+                if (link != nullptr)
+                    link->parent = min->parent;
+
+                std::swap(ptr->data.first, min->data.first);
+                std::swap(ptr->data.second, min->data.second);
+                ptr = min;
+            }
+            else
+            {
+                node *&link = child_link(ptr->parent, key);
+                link = (ptr->left == nullptr) ? ptr->right : ptr->left;
+                if (link != nullptr) link->parent = ptr->parent;
+            }
+
+            delete ptr;
+            mSize--;
+            return 1;
+        }
+        
+        mapT &operator[](const keyT &key)
+        {
+            node *parent = nullptr;
+            node *ptr = find_node(key, mRoot, parent);
+
+            if (ptr == nullptr)
+            {
+                ptr = new node(std::make_pair(key, mapT()), nullptr, nullptr, parent);
+                child_link(parent, key) = ptr;
+                mSize++;
+            }
+
+            return ptr->data.second;
         }
     };
 }
