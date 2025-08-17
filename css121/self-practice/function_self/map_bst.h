@@ -239,8 +239,8 @@ namespace CP
         {
             node *parent;
             node *ptr = find_node(data, mRoot, parent);
-            // return ptr == nullptr ? end() : iterator(ptr); will use later
-            return ptr == nullptr ? iterator(0) : iterator(ptr);
+            
+            return ptr == nullptr ? nullptr : iterator(ptr);
         }
 
         std::pair<iterator, bool> insert(const ValueT &val)
@@ -297,7 +297,7 @@ namespace CP
             mSize--;
             return 1;
         }
-        
+
         mapT &operator[](const keyT &key)
         {
             node *parent = nullptr;
