@@ -18,7 +18,9 @@ namespace CP
 
     public:
         unorder_map() : mBuckets(std::vector<BucketT>(11)), mSize(0), mHasher(HasherT()), mEqual(EqualT()), mMaxLoadFactor(1.0) {};
+
         unorder_map(const unorder_map<KeyT, MappedT, HasherT, EqualT> &other) : mBuckets(other.mBuckets), mSize(other.mSize), mHasher(other.mHasher), mMaxLoadFactor(other.mMaxLoadFactor) {};
+
         unorder_map<KeyT, MappedT, HasherT, EqualT> &operator=(unorder_map<KeyT, MappedT, HasherT, EqualT> other)
         {
             using std::swap;
@@ -30,5 +32,6 @@ namespace CP
 
             return *this;
         }
+        // not yet is done
     };
 }
