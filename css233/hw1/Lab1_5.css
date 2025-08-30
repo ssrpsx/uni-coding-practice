@@ -1,0 +1,62 @@
+/*Give the <body> element a background of #bda464*/
+body {
+    background-color: #bda464;
+}
+/*Make the <h1> elements blue*/
+h1 {
+    color: blue;
+}
+/*Make all <li> elements in the shade of hexadecimal blue*/
+li {
+    color: #0000FF;
+}
+/*Paragraph background to orange*/
+p {
+    background-color: orange;
+}
+/*Make all <h3> have 5px red solid border*/
+h3 {
+    border: 5px solid red;
+}
+/*Give everything with <abbr> bold and underlined*/
+abbr {
+    font-weight: bold;
+    text-decoration: underline;
+}
+/*Give elements with class "explanation" red*/
+.explanation {
+    color: red;
+}
+/*Give <p> in id "zen-benefits" pink background*/
+p#zen-benefits {
+    background-color: pink;
+}
+/*Make <li> adjacent to <h2> red background*/
+li + h2{
+    background-color: red;
+}
+/*Give <em> inside <p> red and bold*/
+p em {
+    color: red;
+    font-weight: bold;
+}
+/* Give visited link green */
+a:visited {
+    color: green;
+}
+/* Change to body font to any google font as you like */
+
+body {
+    font-family: "Noto Sans Thai", sans-serif;
+}
+
+/* Add any animation to <h1> (try the new one not same as the example) */
+@keyframes colorChange {
+    0% { color: blue; }
+    50% { color: orange; }
+    100% { color: blue; }
+}
+
+h1 {
+    animation: colorChange 3s infinite;
+}
