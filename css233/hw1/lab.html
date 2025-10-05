@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">>
+    <title>Document</title>
+    <style>
+        .container {
+            height: 100vh;
+        }
+
+        button {
+            background-color: rgb(79, 79, 255);
+            height: 50px;
+            width: 150px;
+            cursor: pointer;
+            font-size: 1rem;
+            border-radius: 5px;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        button:hover {
+            color: white;
+            background-color: rgb(0, 0, 83);
+            transform: scale(1.2);
+        }
+
+        .container1 {
+            position: absolute;
+            left: 50%;
+            top: 90%;
+            transform: translate(-50%, -50%);
+            width: 1500px;
+            border: 1px solid black;
+            display: block;
+        }
+
+        .box {
+            position: relative;
+            left: 0%;
+            height: 150px;
+            width: 150px;
+            background-color: black;
+            animation: move 5s linear infinite;
+        }
+
+        @keyframes move {
+            0% {
+                left: 0;
+                background-color: red;
+            }
+            25% {
+                background-color: green;
+            }
+            50% {
+                left: calc(100% - 300px);
+                background-color: blue;
+            }
+        }
+        .container2 {
+            position: absolute;
+            top: 30%;
+            left: 10%;
+            transform: translate(-50%, -50%);
+        }
+        .spin {
+            width: 150px;
+            height: 150px;
+            border: 25px solid #f3f3f3;
+            border-top: 25px solid #3498db;
+            border-radius: 50%;
+            animation: spin_move 1s linear 0s infinite;
+        }
+
+        @keyframes spin_move {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container3 {
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .card {
+            position: relative;
+            width: 300px;
+            height: 400px;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+        }
+        
+        .front, .back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 8px;
+            backface-visibility: hidden;
+        }
+
+        .front {
+            background-color: rgb(148, 0, 0);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 3rem;
+            font-weight: bold;
+            color: white;
+        }
+
+        .back {
+            background-color: rgb(0, 47, 148);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 3rem;
+            font-weight: bold;
+            color: white;
+            transform: rotateY(180deg);
+        }
+
+        .container3:hover .card{
+            transform: rotateY(180deg);
+        }
+        
+        .container4 {
+            position: relative;
+            left: 5%;
+            top: -10%;
+            overflow: hidden;
+            border: 3px solid black;
+            margin: 0;
+        }
+
+        .caption {
+            position: absolute;
+            margin: 30px;
+            top: 50%;
+            font-size: 1.75rem;
+            color: white;
+
+            opacity: 0;
+            transition: all 0.5s ease;
+        }
+
+        .container4:hover img {
+            filter: blur(2px);
+        }
+
+        .container4:hover .caption {
+            top: 0;
+            opacity: 1;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <button>Click me</button>
+    </div>
+    <div class="container1">
+        <div class="box"></div>
+    </div>
+    <div class="container2">
+        <div class="spin"></div>
+    </div>
+    <div class="container3">
+        <div class="card">
+            <div class="front">front card</div>
+            <div class="back">back card</div>
+        </div>
+    </div>
+    <div class="container4">
+        <img src="https://as2.ftcdn.net/v2/jpg/06/16/42/63/1000_F_616426349_e3vvbbC6uthc1oyZYZaQcCSFbRimPlBD.jpg"
+            alt="image">
+        <p class="caption">เด็กหนุ่มยืนอยู่บนยอดตึกสูง ท่ามกลางสายลมที่พัดแรงเบา ๆ เมฆล่องลอยช้า ๆ
+            เหนือเมืองที่เต็มไปด้วยแสงไฟ เสียงรถและชีวิตของผู้คนด้านล่างกลายเป็นเงียบสนิทในโลกของเขา
+            ดวงตาเด็กมองไปยังดวงจันทร์สว่างไสวที่ลอยเด่นบนฟากฟ้า แสงจันทร์สะท้อนบนใบหน้า
+            ทำให้เขารู้สึกถึงความเงียบสงบและความกว้างใหญ่ของจักรวาล ความฝันและความหวังของเขาเติบโตขึ้นในใจ
+            เสมือนโลกทั้งใบหยุดหมุนเพื่อให้เขาได้อยู่กับความคิด ความปรารถนา และความสงบเพียงลำพังบนยอดตึกสูงแห่งนี้</p>
+    </div>
+</body>
+
+</html>
